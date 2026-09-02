@@ -32,7 +32,7 @@ const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SEC
 const APP_URL = process.env.APP_URL || "https://nexora-mail-7fdk.onrender.com";
 const STRIPE_PRICES = {
   pro: {
-    monthly: "price_1UBKvfCep0LEOT6UfEH58rtK",
+    monthly: "price_1UBLVgCep0LEOT6ULg7wf4ns",
     annual: "price_1UBKyRCep0LEOT6Uh4TslusH",
   },
   business: {

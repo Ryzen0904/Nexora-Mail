@@ -46,7 +46,7 @@ function renderSummary() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  PLAN = ["pro", "business"].includes(params.get("plan")) ? params.get("plan") : "pro";
+  PLAN = ["pro", "business", "business_test"].includes(params.get("plan")) ? params.get("plan") : "pro";
 
   renderSummary();
 

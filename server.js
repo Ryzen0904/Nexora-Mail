@@ -39,6 +39,9 @@ const STRIPE_PRICES = {
     monthly: "price_1UBL32Cep0LEOT6UtWySVnDK",
     annual: "price_1UBL48Cep0LEOT6UgJpGpbP5",
   },
+  business_test: {
+    monthly: "price_1UBLYACep0LEOT6UZUK2sros",
+  },
 };
 const pool = DATABASE_URL
   ? new Pool({ connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } })
@@ -482,7 +485,7 @@ async function handleApi(req, res, url) {
     if (password.length < 6) {
       return sendJSON(res, 400, { error: "Le mot de passe doit contenir au moins 6 caractères." });
     }
-    if (!["free", "pro", "business"].includes(plan)) {
+    if (!["free", "pro", "business", "business_test"].includes(plan)) {
       return sendJSON(res, 400, { error: "Plan invalide." });
     }
 

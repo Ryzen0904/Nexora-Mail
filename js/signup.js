@@ -33,7 +33,7 @@ function updatePreview() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  const plan = ["free", "pro", "business"].includes(params.get("plan"))
+  const plan = ["free", "pro", "business", "business_test"].includes(params.get("plan"))
     ? params.get("plan")
     : "free";
   const paymentId = params.get("payment") || "";

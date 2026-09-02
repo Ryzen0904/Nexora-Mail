@@ -337,9 +337,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const badge = document.getElementById("userBadge");
     if (badge && (USER.verified || String(USER.role).toUpperCase() === "PDG")) {
       badge.hidden = false;
-      badge.textContent = "✓";
-      badge.classList.add(String(USER.role).toUpperCase() === "PDG" ? "is-gold" : "is-blue");
-      badge.title = String(USER.role).toUpperCase() === "PDG" ? "PDG vérifié" : "Compte vérifié";
+      const isCeo = String(USER.role).toUpperCase() === "PDG";
+      badge.innerHTML = `<img src="assets/${isCeo ? "ceo-gold" : "verified-blue"}.svg" alt="">`;
+      badge.title = isCeo ? "PDG vérifié" : "Compte vérifié";
     }
   }
 

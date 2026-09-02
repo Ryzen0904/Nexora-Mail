@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Compte vérifié">
+  <g fill="#20a1e8">
+    <circle cx="50" cy="12" r="25"/><circle cx="77" cy="23" r="25"/><circle cx="88" cy="50" r="25"/><circle cx="77" cy="77" r="25"/><circle cx="50" cy="88" r="25"/><circle cx="23" cy="77" r="25"/><circle cx="12" cy="50" r="25"/><circle cx="23" cy="23" r="25"/>
+  </g>
+  <path d="M28 51 43 66 73 30" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

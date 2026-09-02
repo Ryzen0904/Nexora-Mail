@@ -144,6 +144,7 @@ function initPricingToggle() {
 
   tabMensuel.addEventListener("click", () => applyMode(false));
   tabAnnuel.addEventListener("click", () => applyMode(true));
+  applyMode(false);
 }
 
 /* ---------- Formulaire de contact (envoi réel via FormSubmit.co) ---------- */

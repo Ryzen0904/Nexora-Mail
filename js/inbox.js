@@ -334,6 +334,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("userName").textContent = USER.name;
     document.getElementById("userEmail").textContent = USER.email;
     document.getElementById("userAvatar").textContent = initials(USER.name);
+    const badge = document.getElementById("userBadge");
+    if (badge && (USER.verified || String(USER.role).toUpperCase() === "PDG")) {
+      badge.hidden = false;
+      badge.textContent = "✓";
+      badge.classList.add(String(USER.role).toUpperCase() === "PDG" ? "is-gold" : "is-blue");
+      badge.title = String(USER.role).toUpperCase() === "PDG" ? "PDG vérifié" : "Compte vérifié";
+    }
   }
 
   // Dossiers

@@ -1,3 +1,19 @@
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.35rem;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.user-badge.is-blue { background: #2491ff; }
+.user-badge.is-gold { background: #d59b16; }
 /* =========================================
    Nexora-Mail — Styles de l'application
    (connexion + boîte de réception)

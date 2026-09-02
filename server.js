@@ -118,7 +118,8 @@ async function initDatabase() {
     CREATE TABLE IF NOT EXISTS users (
       email TEXT PRIMARY KEY, name TEXT NOT NULL, avatar TEXT NOT NULL,
       salt TEXT NOT NULL, password TEXT NOT NULL, role TEXT NOT NULL,
-      plan TEXT DEFAULT 'free', created_at TIMESTAMPTZ DEFAULT NOW()
+      plan TEXT DEFAULT 'free', verified BOOLEAN NOT NULL DEFAULT FALSE,
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
     CREATE TABLE IF NOT EXISTS mails (
       id TEXT PRIMARY KEY, owner TEXT NOT NULL, folder TEXT NOT NULL,
@@ -132,6 +133,7 @@ async function initDatabase() {
       used BOOLEAN NOT NULL DEFAULT FALSE, paid_at TIMESTAMPTZ DEFAULT NOW()
     );
   `);
+  await query("ALTER TABLE users ADD COLUMN IF NOT EXISTS verified BOOLEAN NOT NULL DEFAULT FALSE");
   const [{ rows: userRows }, { rows: mailRows }, { rows: paymentRows }] = await Promise.all([
     query("SELECT email FROM users LIMIT 1"),
     query("SELECT id FROM mails LIMIT 1"),
@@ -159,7 +161,7 @@ async function initDatabase() {
 
 async function getUsers() {
   if (!pool) return readJSON(USERS_FILE) || [];
-  const { rows } = await query('SELECT email,name,avatar,salt,password,role,plan,created_at AS "createdAt" FROM users');
+  const { rows } = await query('SELECT email,name,avatar,salt,password,role,plan,verified,created_at AS "createdAt" FROM users');
   return rows;
 }
 
@@ -376,7 +378,14 @@ function readBody(req) {
 }
 
 function publicUser(u) {
-  return { name: u.name, email: u.email, avatar: u.avatar, role: u.role, plan: u.plan || "free" };
+  return {
+    name: u.name,
+    email: u.email,
+    avatar: u.avatar,
+    role: u.role,
+    plan: u.plan || "free",
+    verified: u.verified === true,
+  };
 }
 
 /* ---------- Routes API ---------- */

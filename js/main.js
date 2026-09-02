@@ -137,7 +137,7 @@ function initPricingToggle() {
       const annualMonthly = el.getAttribute("data-annually");
       const trial = el.getAttribute("data-trial");
       const card = el.closest(".price-card");
-      if (card?.classList.contains("price-card--test")) card.hidden = annual;
+      if (card?.classList.contains("price-card--test")) card.hidden = true;
       el.innerHTML = annual
         ? `${value} €<small>/an</small><span class="price-card__billing">${annualMonthly} € au mois • payé à l'année</span>`
         : `${value} €<small>/mois</small><span class="price-card__billing">${trial || ""}</span>`;

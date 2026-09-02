@@ -8,12 +8,14 @@ const PLAN_INFO = {
     desc: "Pour les indépendants et les petites équipes.",
     monthly: "2,90",
     annual: "2,32",
+    annualTotal: "27,84",
   },
   business: {
     name: "Business",
     desc: "Pour les entreprises en croissance.",
     monthly: "5,90",
     annual: "4,72",
+    annualTotal: "56,64",
   },
 };
 
@@ -29,10 +31,10 @@ function renderSummary() {
   document.getElementById("paySummary").innerHTML = `
     <p class="pay-summary__plan">${info.name}</p>
     <p class="pay-summary__desc">${info.desc}</p>
-    <p class="pay-summary__price">${formatPrice(billing === "annual" ? info.annual : info.monthly)}<small>/mois</small></p>
-    <p class="pay-summary__billing">${billing === "annual" ? "Facturé annuellement (soit " + formatPrice((Number(info.annual.replace(",", ".")) * 12).toFixed(2).replace(".", ",")) + " / an)" : "Facturé mensuellement, sans engagement"}</p>
+    <p class="pay-summary__price">${formatPrice(billing === "annual" ? info.annualTotal : info.monthly)}<small>/${billing === "annual" ? "an" : "mois"}</small></p>
+    <p class="pay-summary__billing">${billing === "annual" ? "Facturé en une seule fois chaque année" : "Facturé mensuellement, sans engagement"}</p>
   `;
-  document.getElementById("payAmount").textContent = "— " + formatPrice(billing === "annual" ? info.annual : info.monthly);
+  document.getElementById("payAmount").textContent = "— " + formatPrice(billing === "annual" ? info.annualTotal : info.monthly);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -88,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       status.className = "form-status is-error";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Payer avec Stripe — " + formatPrice(billing === "annual" ? PLAN_INFO[PLAN].annual : PLAN_INFO[PLAN].monthly);
+      btn.textContent = "Payer avec Stripe — " + formatPrice(billing === "annual" ? PLAN_INFO[PLAN].annualTotal : PLAN_INFO[PLAN].monthly);
     }
   });
 });

@@ -20,6 +20,8 @@ function slug(s) {
 function computeEmail() {
   const first = document.getElementById("firstname").value.trim();
   const last = document.getElementById("lastname").value.trim();
+  const custom = document.getElementById("customEmail")?.value.trim();
+  if (custom) return slug(custom) + "@nexora-mail.com";
   if (!first && !last) return "prenom.nom@nexora-mail.com";
   const local = [slug(first), slug(last)].filter(Boolean).join(".");
   return (local.length ? local : "prenom.nom") + "@nexora-mail.com";
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Plans payants : un paiement validé est obligatoire
   if (plan !== "free") {
+    document.getElementById("customEmailGroup").hidden = false;
     if (!paymentId) {
       document.getElementById("signupForm").hidden = true;
       document.getElementById("signupStatus").textContent =
@@ -67,8 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const first = document.getElementById("firstname");
   const last = document.getElementById("lastname");
+  const customEmail = document.getElementById("customEmail");
   first.addEventListener("input", updatePreview);
   last.addEventListener("input", updatePreview);
+  customEmail?.addEventListener("input", updatePreview);
 
   const form = document.getElementById("signupForm");
   const status = document.getElementById("signupStatus");
@@ -82,9 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const firstname = first.value.trim();
     const lastname = last.value.trim();
     const password = document.getElementById("password").value;
+    const requestedEmail = customEmail?.value.trim() || "";
 
     if (!firstname || !lastname) {
       status.textContent = "Merci de renseigner votre prénom et votre nom.";
+      status.className = "form-status is-error";
+      return;
+    }
+    if (plan !== "free" && requestedEmail && !/^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i.test(requestedEmail)) {
+      status.textContent = "Le nom de l'adresse contient des caractères invalides.";
       status.className = "form-status is-error";
       return;
     }
@@ -96,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(window.NEXORA_API_BASE + "/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstname, lastname, password, plan, payment: paymentId }),
+        body: JSON.stringify({ firstname, lastname, password, plan, payment: paymentId, requestedEmail }),
       });
       const data = await res.json();
 

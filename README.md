@@ -14,3 +14,6 @@ Nexora-Mail est une plateforme de messagerie web légère et performante, constr
 - **Frontend** : HTML5, CSS3, JavaScript / Netlify
 - **Backend** : Node.js, Express / Render
 - **Base de données & Auth** : Supabase (PostgreSQL)
+
+🔒 Licence
+Tous droits réservés. Projet privé.

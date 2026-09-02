@@ -17,6 +17,13 @@ const PLAN_INFO = {
     annual: "4,72",
     annualTotal: "56,64",
   },
+  business_test: {
+    name: "Business TEST",
+    desc: "Pour tester l'essai gratuit Business.",
+    monthly: "5,90",
+    annual: "5,90",
+    annualTotal: "5,90",
+  },
 };
 
 let billing = "monthly";
@@ -39,9 +46,11 @@ function renderSummary() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  PLAN = ["pro", "business"].includes(params.get("plan")) ? params.get("plan") : "pro";
+  PLAN = ["pro", "business", "business_test"].includes(params.get("plan")) ? params.get("plan") : "pro";
 
   renderSummary();
+
+  if (PLAN === "business_test") document.getElementById("tabAnnual").hidden = true;
 
   // Bascule mensuel / annuel
   const tabMonthly = document.getElementById("tabMonthly");

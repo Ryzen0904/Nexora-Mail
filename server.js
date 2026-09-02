@@ -36,7 +36,7 @@ const STRIPE_PRICES = {
     annual: "price_1UBKyRCep0LEOT6Uh4TslusH",
   },
   business: {
-    monthly: "price_1UBL32Cep0LEOT6UtWySVnDK",
+    monthly: "price_1UBLYACep0LEOT6UZUK2sros",
     annual: "price_1UBL48Cep0LEOT6UgJpGpbP5",
   },
 };

@@ -28,19 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
   const status = document.getElementById("loginStatus");
   const btn = document.getElementById("loginBtn");
-  const fillDemo = document.getElementById("fillDemo");
 
   // Si déjà connecté, rediriger vers la boîte
   readCreds().then((data) => {
     if (data && data.user) window.location.href = "inbox.html";
-  });
-
-  // Remplir avec le compte de démo
-  fillDemo.addEventListener("click", () => {
-    form.elements.email.value = "sophie.martin@nexora-mail.com";
-    form.elements.password.value = "nexora123";
-    status.textContent = "";
-    status.className = "form-status";
   });
 
   form.addEventListener("submit", async (e) => {

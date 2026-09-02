@@ -6,7 +6,6 @@ const PLAN_NAMES = {
   free: "Free (0 €/mois)",
   pro: "Pro (2,90 €/mois)",
   business: "Business (5,90 €/mois)",
-  business_test: "Business TEST (essai gratuit)",
 };
 
 function slug(s) {
@@ -33,7 +32,7 @@ function updatePreview() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  const plan = ["free", "pro", "business", "business_test"].includes(params.get("plan"))
+  const plan = ["free", "pro", "business"].includes(params.get("plan"))
     ? params.get("plan")
     : "free";
   const paymentId = params.get("payment") || "";

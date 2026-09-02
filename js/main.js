@@ -135,10 +135,9 @@ function initPricingToggle() {
         ? el.getAttribute("data-annual-total")
         : el.getAttribute("data-monthly");
       const annualMonthly = el.getAttribute("data-annually");
-      const trial = el.getAttribute("data-trial");
       el.innerHTML = annual
         ? `${value} €<small>/an</small><span class="price-card__billing">${annualMonthly} € au mois • payé à l'année</span>`
-        : `${value} €<small>/mois</small><span class="price-card__billing">${trial || ""}</span>`;
+        : `${value} €<small>/mois</small><span class="price-card__billing"></span>`;
     });
   };
 

@@ -18,6 +18,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const { Pool } = require("pg");
+const Stripe = require("stripe");
 
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
@@ -27,6 +28,18 @@ const USERS_FILE = path.join(DATA_DIR, "users.json");
 const MAILS_FILE = path.join(DATA_DIR, "mails.json");
 const PAYMENTS_FILE = path.join(DATA_DIR, "payments.json");
 const DATABASE_URL = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
+const APP_URL = process.env.APP_URL || "https://nexora-mail-7fdk.onrender.com";
+const STRIPE_PRICES = {
+  pro: {
+    monthly: "price_1UBKvfCep0LEOT6UfEH58rtK",
+    annual: "price_1UBKyRCep0LEOT6Uh4TslusH",
+  },
+  business: {
+    monthly: "price_1UBL32Cep0LEOT6UtWySVnDK",
+    annual: "price_1UBL48Cep0LEOT6UgJpGpbP5",
+  },
+};
 const pool = DATABASE_URL
   ? new Pool({ connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } })
   : null;
@@ -479,12 +492,20 @@ async function handleApi(req, res, url) {
       if (!payId) {
         return sendJSON(res, 400, { error: "Le paiement est requis pour ce plan." });
       }
+      if (!stripe) return sendJSON(res, 503, { error: "Paiement Stripe non configuré." });
+      let session;
+      try {
+        session = await stripe.checkout.sessions.retrieve(payId);
+      } catch {
+        return sendJSON(res, 400, { error: "Session de paiement Stripe invalide." });
+      }
       const payments = await getPayments();
       const pay = payments.find((p) => p.id === payId);
-      if (!pay || !pay.approved || pay.used || pay.plan !== plan) {
+      if (!pay || pay.used || session.payment_status !== "paid" || session.metadata?.plan !== plan) {
         return sendJSON(res, 400, { error: "Paiement introuvable ou déjà utilisé." });
       }
       pay.used = true;
+      pay.approved = true;
       await savePayments(payments);
     }
 
@@ -543,35 +564,42 @@ async function handleApi(req, res, url) {
     return sendJSON(res, 200, { email, plan, name: firstName + " " + lastName });
   }
 
-  // POST /api/pay  {plan, billing} → simule un paiement et crée un identifiant
-  const PAY_PRICES = {
-    pro: { monthly: "2,90", annual: "2,32" },
-    business: { monthly: "5,90", annual: "4,72" },
-  };
+  // POST /api/pay  {plan, billing} → crée une session Stripe Checkout
   if (pathname === "/api/pay" && method === "POST") {
     const body = await readBody(req);
     const plan = String(body.plan || "").toLowerCase();
     const billing = String(body.billing || "monthly").toLowerCase();
-    const priceSet = PAY_PRICES[plan];
-    if (!priceSet) {
+    const priceId = STRIPE_PRICES[plan]?.[billing];
+    if (!priceId) {
       return sendJSON(res, 400, { error: "Plan de paiement invalide." });
     }
-    const amount = priceSet[billing] || priceSet.monthly;
+    if (!stripe) return sendJSON(res, 503, { error: "Paiement Stripe non configuré sur Render." });
 
-    const payments = await getPayments();
-    const payId = "pay-" + crypto.randomBytes(8).toString("hex");
-    payments.push({
-      id: payId,
-      plan,
-      billing,
-      amount,
-      approved: true, // démo : paiement simulé réussi
-      used: false,
-      date: new Date().toISOString(),
-    });
-    await savePayments(payments);
-
-    return sendJSON(res, 200, { paymentId: payId, plan, billing, amount });
+    try {
+      const session = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        line_items: [{ price: priceId, quantity: 1 }],
+        success_url: APP_URL + "/signup.html?plan=" + plan + "&payment={CHECKOUT_SESSION_ID}",
+        cancel_url: APP_URL + "/payment.html?plan=" + plan,
+        metadata: { plan, billing },
+        subscription_data: { metadata: { plan, billing } },
+      });
+      const payments = await getPayments();
+      payments.push({
+        id: session.id,
+        plan,
+        billing,
+        amount: priceId,
+        approved: false,
+        used: false,
+        date: new Date().toISOString(),
+      });
+      await savePayments(payments);
+      return sendJSON(res, 200, { checkoutUrl: session.url });
+    } catch (error) {
+      console.error("Stripe Checkout error:", error.message);
+      return sendJSON(res, 502, { error: "Impossible de créer la session Stripe." });
+    }
   }
 
   // GET /api/payment/:id → vérifie qu'un paiement est valable (approuvé, non utilisé)
@@ -579,10 +607,16 @@ async function handleApi(req, res, url) {
   if (payCheckMatch && method === "GET") {
     const payments = await getPayments();
     const pay = payments.find((p) => p.id === payCheckMatch[1]);
-    if (!pay || !pay.approved || pay.used) {
+    if (!pay || pay.used || !stripe) {
       return sendJSON(res, 200, { valid: false });
     }
-    return sendJSON(res, 200, { valid: true, plan: pay.plan, billing: pay.billing, amount: pay.amount });
+    try {
+      const session = await stripe.checkout.sessions.retrieve(pay.id);
+      const paid = session.payment_status === "paid" && session.metadata?.plan === pay.plan;
+      return sendJSON(res, 200, { valid: paid, plan: pay.plan, billing: pay.billing, amount: pay.amount });
+    } catch {
+      return sendJSON(res, 200, { valid: false });
+    }
   }
 
   return sendJSON(res, 404, { error: "Route API inconnue" });

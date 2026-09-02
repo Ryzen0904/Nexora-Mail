@@ -38,31 +38,14 @@
         <button class="pricing__tab" id="tabAnnual" type="button">Annuel <span class="pricing__save">−20 %</span></button>
       </div>
 
-      <!-- Fausse carte bancaire (démo) -->
+      <!-- Stripe Checkout gère les données de paiement sur sa page sécurisée. -->
       <form id="payForm" class="auth-form" novalidate>
-        <div class="form-group">
-          <label for="cardName">Titulaire de la carte</label>
-          <input type="text" id="cardName" placeholder="Jean Dupont" autocomplete="cc-name" required>
-        </div>
-        <div class="form-group">
-          <label for="cardNumber">Numéro de carte</label>
-          <input type="text" id="cardNumber" inputmode="numeric" placeholder="4242 4242 4242 4242" autocomplete="cc-number" required>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="cardExp">Expiration</label>
-            <input type="text" id="cardExp" inputmode="numeric" placeholder="MM/AA" autocomplete="cc-exp" required>
-          </div>
-          <div class="form-group">
-            <label for="cardCvc">CVC</label>
-            <input type="text" id="cardCvc" inputmode="numeric" placeholder="123" autocomplete="cc-csc" required>
-          </div>
-        </div>
-        <button type="submit" class="btn btn--primary btn--full" id="payBtn">Payer <span id="payAmount"></span></button>
+        <p class="pay-note">Vous serez redirigé vers Stripe pour effectuer le paiement en toute sécurité.</p>
+        <button type="submit" class="btn btn--primary btn--full" id="payBtn">Payer avec Stripe <span id="payAmount"></span></button>
         <p class="form-status" id="payStatus" aria-live="polite"></p>
       </form>
 
-      <p class="pay-note">🔒 Démo : aucun débit réel n'est effectué. Carte valide : 4242 4242 4242 4242</p>
+      <p class="pay-note">🔒 Paiement sécurisé par Stripe.</p>
 
       <p class="auth-back"><a href="index.html">← Retour aux tarifs</a></p>
     </div>

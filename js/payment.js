@@ -66,36 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
     status.textContent = "";
     status.className = "form-status";
 
-    const cardName = form.elements.cardName.value.trim();
-    const cardNumber = form.elements.cardNumber.value.replace(/\s+/g, "");
-    const exp = form.elements.cardExp.value.trim();
-    const cvc = form.elements.cardCvc.value.trim();
-
-    // Validation simple de la carte (démo)
-    if (!cardName || !cardNumber || !exp || !cvc) {
-      status.textContent = "Merci de remplir tous les champs de la carte.";
-      status.className = "form-status is-error";
-      return;
-    }
-    if (!/^\d{12,19}$/.test(cardNumber)) {
-      status.textContent = "Numéro de carte invalide.";
-      status.className = "form-status is-error";
-      return;
-    }
-    if (!/^\d{2}\/\d{2}$/.test(exp)) {
-      status.textContent = "Date d'expiration invalide (format MM/AA).";
-      status.className = "form-status is-error";
-      return;
-    }
-    if (!/^\d{3,4}$/.test(cvc)) {
-      status.textContent = "CVC invalide.";
-      status.className = "form-status is-error";
-      return;
-    }
-
     btn.disabled = true;
-    btn.textContent = "Paiement en cours…";
-    status.textContent = "⏳ Traitement du paiement…";
+    btn.textContent = "Redirection vers Stripe…";
+    status.textContent = "⏳ Ouverture du paiement sécurisé…";
     status.className = "form-status";
 
     try {
@@ -108,18 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) throw new Error(data.error || "Paiement refusé.");
 
-      // Paiement validé → redirection vers la création de l'e-mail
-      status.textContent = "✅ Paiement validé !";
-      status.className = "form-status is-success";
-      setTimeout(() => {
-        window.location.href = "signup.html?plan=" + PLAN + "&payment=" + data.paymentId;
-      }, 700);
+      if (!data.checkoutUrl) throw new Error("Lien de paiement indisponible.");
+      window.location.href = data.checkoutUrl;
     } catch (err) {
       status.textContent = "❌ " + err.message;
       status.className = "form-status is-error";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Payer — " + formatPrice(billing === "annual" ? PLAN_INFO[PLAN].annual : PLAN_INFO[PLAN].monthly);
+      btn.textContent = "Payer avec Stripe — " + formatPrice(billing === "annual" ? PLAN_INFO[PLAN].annual : PLAN_INFO[PLAN].monthly);
     }
   });
 });

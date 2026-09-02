@@ -1,0 +1,18 @@
+{
+  "name": "nexora-mail",
+  "version": "1.0.0",
+  "description": "Nexora-Mail — messagerie professionnelle",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "stop": "taskkill /F /FI \"IMAGENAME eq node.exe\""
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "pg": "^8.16.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

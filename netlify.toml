@@ -1,0 +1,25 @@
+# ============================================
+# Nexora-Mail — Configuration Netlify
+# https://app.netlify.com/drop  ← glisser le dossier nexora-mail
+# ============================================
+
+[build]
+  # Dossier à publier : la racine du projet (site déjà 100 % statique)
+  publish = "."
+  command = ""
+
+# Environnement Node pour les éventuelles fonctions serverless
+[build.environment]
+  NODE_VERSION = "20"
+
+# Dossier des fonctions API (réservé pour la mise en ligne des comptes)
+[functions]
+  directory = "netlify/functions"
+
+# En-têtes de sécurité de base
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"

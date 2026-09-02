@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexora-Mail — La messagerie professionnelle nouvelle génération</title>
+  <meta name="description" content="Nexora-Mail : des adresses e-mail professionnelles à votre nom de domaine. Sécurité, fiabilité et outils collaboratifs pour les entreprises.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER / NAVIGATION ===== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#accueil" class="brand">
+        <span class="brand__logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="6" width="28" height="20" rx="4" fill="url(#g1)"/>
+            <path d="M4 9l12 9 12-9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="32" y2="32">
+                <stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand__name">Nexora<span class="brand__accent">Mail</span></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Navigation principale">
+        <ul class="nav__list">
+          <li><a href="#accueil" class="nav__link">Accueil</a></li>
+          <li><a href="#fonctionnalites" class="nav__link">Fonctionnalités</a></li>
+          <li><a href="#adresses" class="nav__link">Votre adresse</a></li>
+          <li><a href="#tarifs" class="nav__link">Tarifs</a></li>
+          <li><a href="#faq" class="nav__link">FAQ</a></li>
+          <li><a href="#contact" class="nav__link">Contact</a></li>
+        </ul>
+        <div class="nav__actions">
+          <a href="login.html" class="btn btn--ghost">Se connecter</a>
+          <a href="#tarifs" class="btn btn--primary">Commencer</a>
+        </div>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="accueil">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="hero__badge"><span class="dot"></span> Messagerie 100 % professionnelle</p>
+          <h1 class="hero__title">
+            Votre messagerie <span class="gradient-text">à votre image</span>, au nom de votre entreprise.
+          </h1>
+          <p class="hero__subtitle">
+            Nexora-Mail vous offre des adresses e-mail personnalisées comme
+            <code class="inline-code">prenom.nom@votreentreprise.com</code>, avec une sécurité renforcée,
+            une disponibilité de 99,99 % et des outils pensés pour les équipes.
+          </p>
+          <div class="hero__actions">
+            <a href="#tarifs" class="btn btn--primary btn--lg">Créer mon adresse pro →</a>
+            <a href="#fonctionnalites" class="btn btn--ghost-light btn--lg">Découvrir les offres</a>
+          </div>
+          <ul class="hero__stats">
+            <li><strong>99,99 %</strong><span>de disponibilité</span></li>
+            <li><strong>20 Go</strong><span>de stockage / boîte</span></li>
+            <li><strong>24/7</strong><span>support dédié</span></li>
+          </ul>
+        </div>
+
+        <div class="hero__visual" aria-label="Exemple d'adresses Nexora-Mail">
+          <div class="mail-card mail-card--main">
+            <div class="mail-card__head">
+              <span class="mail-card__avatars" aria-hidden="true">
+                <span class="avatar" style="--c:#6366f1">S</span>
+                <span class="avatar" style="--c:#8b5cf6">L</span>
+                <span class="avatar" style="--c:#06b6d4">M</span>
+              </span>
+              <span class="mail-card__label">Boîte de réception — 12 nouveaux</span>
+            </div>
+            <div class="mail-card__preview">
+              <div class="preview-item">
+                <span class="preview-item__avatar" style="--c:#0ea5e9">CL</span>
+                <div>
+                  <strong>Chloé Laurent</strong>
+                  <p>Rendez-vous demain à 9h30 — salle Nexus.<span class="tag tag--pro">PRO</span></p>
+                </div>
+              </div>
+              <div class="preview-item">
+                <span class="preview-item__avatar" style="--c:#10b981">AR</span>
+                <div>
+                  <strong>Arthur Robert</strong>
+                  <p>Devis révisé joint à ce message.</p>
+                </div>
+              </div>
+              <div class="preview-item">
+                <span class="preview-item__avatar" style="--c:#f59e0b">LS</span>
+                <div>
+                  <strong>Léa Simon</strong>
+                  <p>Félicitations à l'équipe ! 🎉</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mail-chip mail-chip--1">prenom.nom@nexora-mail.com</div>
+          <div class="mail-chip mail-chip--2">contact@votreentreprise.fr</div>
+          <div class="badge-secure">🔒 Chiffrement AES-256</div>
+        </div>
+      </div>
+    </section>
+
+  <!-- ===== LOGOS / MARQUES ===== -->
+    <section class="logos" aria-label="Entreprises qui nous font confiance">
+      <div class="container logos__inner">
+        <p class="logos__title">Ils nous font confiance</p>
+        <ul class="logos__list">
+          <li>Nova</li>
+          <li>Helio</li>
+          <li>Arcris</li>
+          <li>Vertex Group</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== FONCTIONNALITÉS ===== -->
+    <section class="features" id="fonctionnalites">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-head__eyebrow">Pourquoi Nexora-Mail ?</p>
+          <h2 class="section-head__title">Tout pour vos échanges <span class="gradient-text">professionnels</span></h2>
+          <p class="section-head__subtitle">Une solution complète, sécurisée et pensée pour les équipes en entreprise.</p>
+        </div>
+        <div class="features__grid">
+          <article class="feature-card reveal">
+            <span class="feature-card__icon" aria-hidden="true">✉</span>
+            <h3>Des adresses à votre nom</h3>
+            <p>Choisissez vos adresses en prenom.nom@votreentreprise.com, ou créez des boîtes génériques comme contact@ ou support@.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__icon" aria-hidden="true">🔐</span>
+            <h3>Sécurité renforcée</h3>
+            <p>Chiffrement AES-256 au repos et TLS en transit, anti-phishing, anti-spam intelligent et authentification à deux facteurs.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__icon" aria-hidden="true">📅</span>
+            <h3>Agenda &amp; conférences</h3>
+            <p>Un agenda partagé, des invitations avec statut en temps réel et des visioconférences intégrées en un clic.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__icon" aria-hidden="true">📁</span>
+            <h3>Stockage 20 Go</h3>
+            <p>20 Go par boîte, extensible. Recherche instantanée et pièces jointes jusqu'à 50 Mo en toute simplicité.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__icon" aria-hidden="true">👥</span>
+            <h3>Gestion d'équipe</h3>
+            <p>Créez des groupes, listes de diffusion, alias et délégations pour piloter vos collaborateurs efficacement.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__icon" aria-hidden="true">📱</span>
+            <h3>Compatible partout</h3>
+            <p>Accédez à vos mails depuis le navigateur, iOS, Android, Outlook ou votre logiciel favori (IMAP/SMTP).</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ADRESSES ===== -->
+    <section class="addresses" id="adresses">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-head__eyebrow">Vos adresses</p>
+          <h2 class="section-head__title">Des adresses 100 % <span class="gradient-text">à votre marque</span></h2>
+          <p class="section-head__subtitle">Fini les adresses type @gmail.com ou @hotmail.fr pour les professionnels. Chez Nexora-Mail, chaque boîte porte votre nom de domaine.</p>
+        </div>
+        <div class="addresses__grid">
+          <div class="address-card reveal">
+            <span class="address-card__domain">nexora-mail.com</span>
+            <p class="address-card__mail">sophie.martin@nexora-mail.com</p>
+            <p class="address-card__desc">Votre adresse de base, propre et moderne, fournie avec chaque abonnement.</p>
+          </div>
+          <div class="address-card address-card--highlight reveal">
+            <span class="address-card__domain">votre-domaine.fr</span>
+            <p class="address-card__mail">contact@votreentreprise.fr</p>
+            <p class="address-card__desc">Connectez votre propre domaine en quelques minutes : prenom.nom@votreentreprise.com.</p>
+            <span class="address-card__badge">Recommandé</span>
+          </div>
+          <div class="address-card reveal">
+            <span class="address-card__domain">alias &amp; groupes</span>
+            <p class="address-card__mail">rh@votreentreprise.fr · support@</p>
+            <p class="address-card__desc">Créez des alias et listes de diffusion pour chaque service de l'entreprise.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <!-- ===== TARIFS ===== -->
+    <section class="pricing" id="tarifs">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-head__eyebrow">Tarifs</p>
+          <h2 class="section-head__title">Des offres <span class="gradient-text">claires et flexibles</span></h2>
+          <p class="section-head__subtitle">Sans engagement. Résiliez à tout moment. TVA incluse.</p>
+        </div>
+
+        <!-- NOTE (privé) : les comptes fondateurs seront créés côté serveur,
+             une fois la connexion à la base / les pré-mails en place. -->
+        <div class="pricing__toggle" role="group" aria-label="Choisir la facturation">
+          <button class="pricing__tab is-active" id="tabMensuel" type="button">Mensuel</button>
+          <button class="pricing__tab" id="tabAnnuel" type="button">Annuel <span class="pricing__save">−20 %</span></button>
+        </div>
+
+        <div class="pricing__grid">
+          <!-- Offre Free -->
+          <article class="price-card reveal">
+            <h3 class="price-card__name">Free</h3>
+            <p class="price-card__desc">Pour découvrir Nexora-Mail gratuitement.</p>
+            <p class="price-card__price" data-monthly="0" data-annually="0">0 €<small>/mois</small></p>
+            <ul class="price-card__features">
+              <li>1 adresse prenom.nom@nexora-mail.com</li>
+              <li>1 boîte de réception</li>
+              <li>1 Go de stockage</li>
+              <li>Agenda basique</li>
+              <li>Support communautaire</li>
+            </ul>
+            <a href="signup.html?plan=free" class="btn btn--outline btn--full">Créer mon e-mail</a>
+          </article>
+
+          <!-- Offre Pro -->
+          <article class="price-card reveal">
+            <h3 class="price-card__name">Pro</h3>
+            <p class="price-card__desc">Pour les indépendants et les petites équipes.</p>
+            <p class="price-card__price" data-monthly="2,90" data-annually="2,32">2,90 €<small>/mois</small></p>
+            <ul class="price-card__features">
+              <li>1 boîte de réception</li>
+              <li>Adresse à votre nom de domaine</li>
+              <li>20 Go de stockage</li>
+              <li>Agenda et visioconférences intégrées</li>
+              <li>Support par e-mail</li>
+            </ul>
+            <a href="payment.html?plan=pro" class="btn btn--outline btn--full">Choisir Pro</a>
+          </article>
+
+          <!-- Offre Business -->
+          <article class="price-card price-card--popular reveal">
+            <span class="price-card__badge">Le plus choisi</span>
+            <h3 class="price-card__name">Business</h3>
+            <p class="price-card__desc">Pour les entreprises en croissance.</p>
+            <p class="price-card__price" data-monthly="5,90" data-annually="4,72">5,90 €<small>/mois</small></p>
+            <ul class="price-card__features">
+              <li>Tout l'offre Pro</li>
+              <li>Boîtes illimitées incluses</li>
+              <li>Gestion de groupes &amp; alias</li>
+              <li>Archivage illimité</li>
+              <li>Support prioritaire 24/7</li>
+            </ul>
+            <a href="payment.html?plan=business" class="btn btn--primary btn--full">Choisir Business</a>
+          </article>
+
+          <!-- Offre Entreprise -->
+          <article class="price-card reveal">
+            <h3 class="price-card__name">Entreprise</h3>
+            <p class="price-card__desc">Pour les grands comptes et besoins sur-mesure.</p>
+            <p class="price-card__price"><span class="price-card__custom">Sur devis</span></p>
+            <ul class="price-card__features">
+              <li>Tout l'offre Business</li>
+              <li>SSO / SAML &amp; contrôles admin avancés</li>
+              <li>RGPD &amp; hébergement UE dédié</li>
+              <li>Contrats &amp; SLA personnalisés</li>
+              <li>Accompagnement sur mesure</li>
+            </ul>
+            <a href="#contact" class="btn btn--outline btn--full">Demander un devis</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TÉMOIGNAGES ===== -->
+    <section class="testimonials" id="temoignages">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-head__eyebrow">Témoignages</p>
+          <h2 class="section-head__title">Ce que disent <span class="gradient-text">nos clients</span></h2>
+        </div>
+        <div class="testimonials__grid">
+          <figure class="testimonial-card reveal">
+            <div class="testimonial-card__stars" aria-label="5 étoiles">★★★★★</div>
+            <blockquote>« Depuis que nous sommes passés chez Nexora-Mail, nos clients ne voient plus que "votreentreprise.com" dans leurs boîtes mail. La crédibilité a changé du tout au tout. »</blockquote>
+            <figcaption>
+              <span class="avatar" style="--c:#6366f1">SL</span>
+              <div><strong>Sophie Laurent</strong><span>Fondatrice — Atelier Nova</span></div>
+            </figcaption>
+          </figure>
+          <figure class="testimonial-card reveal">
+            <div class="testimonial-card__stars" aria-label="5 étoiles">★★★★★</div>
+            <blockquote>« L'installation de notre domaine a pris 10 minutes. La gestion des équipes et des permissions est incroyablement intuitive. »</blockquote>
+            <figcaption>
+              <span class="avatar" style="--c:#0ea5e9">MR</span>
+              <div><strong>Maëlys Rousseau</strong><span>CTO — Vertex Group</span></div>
+            </figcaption>
+          </figure>
+          <figure class="testimonial-card reveal">
+            <div class="testimonial-card__stars" aria-label="5 étoiles">★★★★★</div>
+            <blockquote>« La sécurité est au rendez-vous, le support répond en moins de 2 heures. On ne se pose plus de questions. »</blockquote>
+            <figcaption>
+              <span class="avatar" style="--c:#10b981">TD</span>
+              <div><strong>Thomas Dubois</strong><span>Directeur informatique — Helio</span></div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  <!-- ===== FAQ ===== -->
+    <section class="faq" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-head__eyebrow">FAQ</p>
+          <h2 class="section-head__title">Vos <span class="gradient-text">questions</span> fréquentes</h2>
+        </div>
+        <div class="faq__list">
+          <details class="faq__item reveal">
+            <summary>Puis-je utiliser mon propre nom de domaine ?</summary>
+            <p>Oui, absolument. Une fois votre domaine connecté (via les enregistrements DNS), vous pouvez créer toutes les adresses que vous souhaitez : prenom.nom@votreentreprise.com, contact@, support@…</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Mon adresse sera-t-elle bien prenom.nom@nexora-mail.com ?</summary>
+            <p>Oui. Par défaut, vous recevez une ou plusieurs adresses se terminant par @nexora-mail.com. Vous pouvez ensuite y ajouter votre propre domaine.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Est-ce que mes données sont sécurisées ?</summary>
+            <p>Oui. Chiffrement AES-256, protocole TLS pour tous les échanges, hébergement en France (conforme RGPD) et authentification à deux facteurs en option.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Puis-je transférer mes anciens e-mails ?</summary>
+            <p>Absolument. Notre équipe vous accompagne gratuitement pour transférer vos boîtes, vos contacts et vos calendriers depuis Gmail, Outlook ou toute autre messagerie.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Quelles sont les conditions d'engagement ?</summary>
+            <p>Aucun engagement. Vous payez au mois ou à l'année, et vous pouvez résilier quand vous le souhaitez. Vous conservez vos données 30 jours après la résiliation.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta">
+      <div class="container cta__inner">
+        <h2>Passez au <span class="gradient-text">professionnel</span> dès aujourd'hui</h2>
+        <p>Rejoignez plus de 4 000 entreprises qui ont choisi Nexora-Mail pour leurs échanges quotidiens.</p>
+        <div class="cta__actions">
+          <a href="#contact" class="btn btn--primary btn--lg">Créer mon compte</a>
+          <a href="#tarifs" class="btn btn--ghost-light btn--lg">Voir les tarifs</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-head__eyebrow">Contact</p>
+          <h2 class="section-head__title">Parlons de votre <span class="gradient-text">projet</span></h2>
+          <p class="section-head__subtitle">Une question, un projet de déploiement ? Écrivez-nous, nous répondons sous 2 heures ouvrables.</p>
+        </div>
+        <form class="contact__form reveal" id="contactForm" action="https://formsubmit.co/nexorateam306@gmail.com" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="Nouveau message depuis le site Nexora-Mail">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="honey-pot" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nom">Nom complet</label>
+              <input type="text" id="nom" name="nom" placeholder="Marie Dupont" required>
+            </div>
+            <div class="form-group">
+              <label for="entreprise">Entreprise</label>
+              <input type="text" id="entreprise" name="entreprise" placeholder="Votre entreprise">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Votre e-mail (pour recevoir notre réponse)</label>
+              <input type="email" id="email" name="email" placeholder="prenom.nom@votreentreprise.com" required>
+            </div>
+            <div class="form-group">
+              <label for="telephone">Téléphone</label>
+              <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Votre message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Parlez-nous de vos besoins…" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg btn--full">Envoyer</button>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__col footer__brand">
+        <a href="#accueil" class="brand">
+          <span class="brand__logo" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="6" width="28" height="20" rx="4" fill="url(#g2)"/>
+              <path d="M4 9l12 9 12-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs><linearGradient id="g2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+            </svg>
+          </span>
+          <span class="brand__name">Nexora<span class="brand__accent">Mail</span></span>
+        </a>
+        <p>La messagerie professionnelle nouvelle génération. Simple, sécurisée, pensée pour les équipes.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Produit</h4>
+        <ul>
+          <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+          <li><a href="#tarifs">Tarifs</a></li>
+          <li><a href="#adresses">Adresses</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Entreprise</h4>
+        <ul>
+          <li><a href="#temoignages">Témoignages</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+          <li><a href="mentions-legales.html#rgpd">Confidentialité</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#contact">Nous contacter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>© 2026 Nexora-Mail. Tous droits réservés.</p>
+      <p>Fait avec ❤ pour les professionnels du monde entier.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

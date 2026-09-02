@@ -1,0 +1,184 @@
+[
+  {
+    "id": "s1",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "inbox",
+    "from": {
+      "name": "Arthur Robert",
+      "email": "arthur.robert@nexora-mail.com"
+    },
+    "to": "sophie.martin@nexora-mail.com",
+    "subject": "RDV demain à 9h30 — salle Nexus",
+    "body": "Bonjour Sophie,\n\nPetit rappel : le point équipe est demain à 9h30 en salle Nexus.\nMerci de confirmer ta présence.\n\nArthur",
+    "date": "2026-09-01T16:54:43.219Z",
+    "read": true
+  },
+  {
+    "id": "s2",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "inbox",
+    "from": {
+      "name": "Chloé Laurent",
+      "email": "chloe.laurent@oentreprise.fr"
+    },
+    "to": "sophie.martin@nexora-mail.com",
+    "subject": "Devis révisé joint",
+    "body": "Sophie,\n\nVoici la version révisée du devis avec les corrections demandées.\nDis-moi ce que tu en penses !\n\nChloé",
+    "date": "2026-09-01T13:54:43.219Z",
+    "read": true
+  },
+  {
+    "id": "s3",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "inbox",
+    "from": {
+      "name": "Léa Simon",
+      "email": "lea.simon@oentreprise.fr"
+    },
+    "to": "sophie.martin@nexora-mail.com",
+    "subject": "Partage du document stratégique",
+    "body": "Bonjour,\n\nVous trouverez ci-joint notre document stratégique pour l'année à venir.\nBonne lecture !\n\nL'équipe",
+    "date": "2026-09-01T17:24:43.219Z",
+    "read": true
+  },
+  {
+    "id": "s4",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "sent",
+    "from": {
+      "name": "Sophie Martin",
+      "email": "sophie.martin@nexora-mail.com"
+    },
+    "to": "arthur.robert@nexora-mail.com",
+    "subject": "Re: RDV demain à 9h30 — salle Nexus",
+    "body": "Présente, à demain !\n\nSophie",
+    "date": "2026-09-01T17:54:43.219Z",
+    "read": true
+  },
+  {
+    "id": "s5",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "drafts",
+    "from": {
+      "name": "Sophie Martin",
+      "email": "sophie.martin@nexora-mail.com"
+    },
+    "to": "lea.simon@oentreprise.fr",
+    "subject": "Brouillon — Proposition commerciale",
+    "body": "Bonjour Léa,\n\nSuite à nos échanges, voici notre proposition commerciale…",
+    "date": "2026-08-31T22:54:43.219Z",
+    "read": false
+  },
+  {
+    "id": "s6",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "spam",
+    "from": {
+      "name": "Offre Promo",
+      "email": "promo@solde-avantage.fr"
+    },
+    "to": "sophie.martin@nexora-mail.com",
+    "subject": "Gagnez un bon cadeau !",
+    "body": "Cliquez vite pour récupérer votre bon cadeau de 500 €.",
+    "date": "2026-09-01T10:54:43.219Z",
+    "read": false
+  },
+  {
+    "id": "s7",
+    "owner": "sophie.martin@nexora-mail.com",
+    "folder": "trash",
+    "from": {
+      "name": "Newsletter",
+      "email": "news@ecommerce.fr"
+    },
+    "to": "sophie.martin@nexora-mail.com",
+    "subject": "Votre panier vous attend",
+    "body": "Il vous reste des articles dans votre panier…",
+    "date": "2026-09-01T06:54:43.219Z",
+    "read": true
+  },
+  {
+    "id": "w7b0707541e52",
+    "owner": "kyxmi.delahodde@nexora-mail.com",
+    "folder": "inbox",
+    "from": {
+      "name": "Équipe Nexora-Mail",
+      "email": "contact@nexora-mail.com"
+    },
+    "to": "kyxmi.delahodde@nexora-mail.com",
+    "subject": "Bienvenue dans votre boîte kyxmi.delahodde@nexora-mail.com",
+    "body": "Bonjour Kyxmi,\n\nFélicitations, votre adresse kyxmi.delahodde@nexora-mail.com est active !\nVous êtes sur le plan PRO.\n\nConnectez-vous dès maintenant pour découvrir votre boîte de réception.\n\nL'équipe Nexora-Mail",
+    "date": "2026-09-01T19:02:46.763Z",
+    "read": true
+  },
+  {
+    "id": "m68cbfbb7095b",
+    "owner": "kyxmi.delahodde@nexora-mail.com",
+    "folder": "sent",
+    "from": {
+      "name": "Kyxmi Delahodde",
+      "email": "kyxmi.delahodde@nexora-mail.com"
+    },
+    "to": "louisdelahodde@gmail.com",
+    "subject": "Test",
+    "body": "Fonctionne?",
+    "date": "2026-09-01T19:03:25.479Z",
+    "read": true
+  },
+  {
+    "id": "w0ce8f0a48af0",
+    "owner": "kyxmi.fps@nexora-mail.com",
+    "folder": "inbox",
+    "from": {
+      "name": "Équipe Nexora-Mail",
+      "email": "contact@nexora-mail.com"
+    },
+    "to": "kyxmi.fps@nexora-mail.com",
+    "subject": "Bienvenue dans votre boîte kyxmi.fps@nexora-mail.com",
+    "body": "Bonjour Kyxmi,\n\nFélicitations, votre adresse kyxmi.fps@nexora-mail.com est active !\nVous êtes sur le plan BUSINESS.\n\nConnectez-vous dès maintenant pour découvrir votre boîte de réception.\n\nL'équipe Nexora-Mail",
+    "date": "2026-09-01T19:05:37.602Z",
+    "read": true
+  },
+  {
+    "id": "m7ba8826d9052",
+    "owner": "kyxmi.fps@nexora-mail.com",
+    "folder": "sent",
+    "from": {
+      "name": "Kyxmi Fps",
+      "email": "kyxmi.fps@nexora-mail.com"
+    },
+    "to": "kyxmi.delahodde@gmail.com",
+    "subject": "Test",
+    "body": "Test",
+    "date": "2026-09-02T18:33:22.414Z",
+    "read": true
+  },
+  {
+    "id": "m4899eabde0df",
+    "owner": "kyxmi.fps@nexora-mail.com",
+    "folder": "sent",
+    "from": {
+      "name": "Kyxmi Fps",
+      "email": "kyxmi.fps@nexora-mail.com"
+    },
+    "to": "ryzen0904r6@gmail.com",
+    "subject": "Test",
+    "body": "Bonjour ceci est un test. Au revoir.",
+    "date": "2026-09-02T19:06:15.086Z",
+    "read": true
+  },
+  {
+    "id": "m7fa5da076d1e",
+    "owner": "kyxmi.fps@nexora-mail.com",
+    "folder": "sent",
+    "from": {
+      "name": "Kyxmi Fps",
+      "email": "kyxmi.fps@nexora-mail.com"
+    },
+    "to": "kyxmi.delahodde@gmail.com",
+    "subject": "Test",
+    "body": "Test",
+    "date": "2026-09-02T19:54:12.431Z",
+    "read": true
+  }
+]

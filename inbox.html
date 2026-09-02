@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boîte de réception — Nexora-Mail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="app-body">
+
+  <!-- Barre supérieure -->
+  <header class="app-bar">
+    <div class="app-bar__inner">
+      <a href="index.html" class="brand">
+        <span class="brand__logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="6" width="28" height="20" rx="4" fill="url(#ag2)"/>
+            <path d="M4 9l12 9 12-9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="ag2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          </svg>
+        </span>
+        <span class="brand__name">Nexora<span class="brand__accent">Mail</span></span>
+      </a>
+
+      <div class="app-bar__search">
+        <input type="search" id="searchInput" placeholder="Rechercher dans le dossier…" aria-label="Rechercher">
+      </div>
+
+      <div class="app-bar__user" id="userInfo">
+        <span class="avatar" id="userAvatar">?</span>
+        <div class="app-bar__user-text">
+          <strong id="userName">...</strong>
+          <span id="userEmail">...</span>
+        </div>
+        <button type="button" class="btn btn--ghost btn--sm" id="settingsBtn" title="Configuration de l'envoi externe">⚙️</button>
+        <button type="button" class="btn btn--ghost btn--sm" id="logoutBtn">Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-main">
+<!-- Colonne gauche : dossiers -->
+    <aside class="app-side">
+      <button type="button" class="btn btn--primary btn--full" id="composeBtn">＋ Nouveau message</button>
+
+      <nav class="app-folders" aria-label="Dossiers">
+        <button type="button" class="app-folder is-active" data-folder="inbox">
+          <span>📥 Boîte de réception</span><span class="app-folder__badge" id="badgeInbox"></span>
+        </button>
+        <button type="button" class="app-folder" data-folder="sent">
+          <span>📤 Messages envoyés</span><span class="app-folder__badge" id="badgeSent"></span>
+        </button>
+        <button type="button" class="app-folder" data-folder="drafts">
+          <span>📝 Brouillons</span><span class="app-folder__badge" id="badgeDrafts"></span>
+        </button>
+        <button type="button" class="app-folder" data-folder="spam">
+          <span>⚠️ Spam</span><span class="app-folder__badge" id="badgeSpam"></span>
+        </button>
+        <button type="button" class="app-folder" data-folder="trash">
+          <span>🗑️ Corbeille</span><span class="app-folder__badge" id="badgeTrash"></span>
+        </button>
+      </nav>
+
+      <div class="app-ext-status" id="extStatus">Envoi externe : ⚪ non configuré</div>
+
+      <div class="app-side__footer">
+        <p>Stockage : <strong>2,1 Go / 20 Go</strong></p>
+        <div class="meter"><span style="width:10%"></span></div>
+      </div>
+    </aside>
+
+    <!-- Colonne centrale : liste -->
+    <section class="app-list" id="mailList" aria-label="Liste des messages"></section>
+
+    <!-- Colonne droite : lecture -->
+    <section class="app-read" id="readPane">
+      <p class="app-read__empty">Sélectionnez un message pour le lire.</p>
+    </section>
+  </div>
+
+  <!-- Modale composer -->
+  <div class="modal-overlay" id="composeOverlay" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Nouveau message</h3>
+        <button type="button" class="modal-close" id="composeClose" aria-label="Fermer">✕</button>
+      </div>
+      <form id="composeForm" class="modal-form" novalidate>
+        <div class="form-group">
+          <label for="composeTo">Destinataire</label>
+          <input type="text" id="composeTo" autocomplete="off" placeholder="arthur.robert@nexora-mail.com" required>
+        </div>
+        <div class="form-group">
+          <label for="composeSubject">Objet</label>
+          <input type="text" id="composeSubject" placeholder="(facultatif)">
+        </div>
+        <div class="form-group">
+          <label for="composeBody">Message</label>
+          <textarea id="composeBody" rows="10" placeholder="Rédigez votre message…"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn--primary">✉️ Envoyer</button>
+          <p class="form-status" id="composeStatus" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modale configuration envoi externe -->
+  <div class="modal-overlay" id="settingsOverlay" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Envoi externe — EmailJS</h3>
+        <button type="button" class="modal-close" id="settingsClose" aria-label="Fermer">✕</button>
+      </div>
+      <p class="settings-help">
+        Permet d'envoyer de <strong>vrais e-mails</strong> vers Gmail, Outlook, etc.
+        Créez un compte gratuit sur
+        <a href="https://dashboard.emailjs.com" target="_blank" rel="noopener noreferrer">dashboard.emailjs.com</a>,
+        ajoutez votre boîte Gmail/Outlook comme service, créez un modèle avec les variables
+        <code>to_email</code>, <code>to_name</code>, <code>from_name</code>, <code>reply_to</code>,
+        <code>subject</code>, <code>message</code>, puis collez vos identifiants ici.
+        La <strong>Clé API</strong> (publique) et la <strong>Clé API Secrète</strong> (privée)
+        se trouvent dans le menu <em>Account → API</em> du dashboard.
+      </p>
+      <form id="settingsForm" class="modal-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfgFromName">Nom de l'expéditeur</label>
+            <input type="text" id="cfgFromName" placeholder="Sophie Martin">
+          </div>
+          <div class="form-group">
+            <label for="cfgFromEmail">E-mail de réponse</label>
+            <input type="email" id="cfgFromEmail" placeholder="sophie.martin@nexora-mail.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfgApiKey">Clé API</label>
+            <input type="text" id="cfgApiKey" placeholder="clé publique (XXXX…)">
+          </div>
+          <div class="form-group">
+            <label for="cfgSecretKey">Clé API Secrète</label>
+            <input type="password" id="cfgSecretKey" placeholder="clé privée (XXX…)">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfgServiceId">Service ID</label>
+            <input type="text" id="cfgServiceId" placeholder="service_xxxxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label for="cfgTemplateId">Template ID</label>
+            <input type="text" id="cfgTemplateId" placeholder="template_xxxxxxxxxx">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn--primary">💾 Enregistrer</button>
+          <button type="button" class="btn btn--outline" id="testSendBtn">Envoyer un test</button>
+          <p class="form-status" id="settingsStatus" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="js/inbox.js"></script>
+</body>
+</html>

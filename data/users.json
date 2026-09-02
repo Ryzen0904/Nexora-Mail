@@ -1,0 +1,38 @@
+[
+  {
+    "email": "sophie.martin@nexora-mail.com",
+    "name": "Sophie Martin",
+    "avatar": "SM",
+    "salt": "nexora-demo-salt",
+    "password": "82fb3cbf10628c76d8338137f4ca48e84ed49a111ebc8d54d358510f3eb56ebe",
+    "role": "fondateur"
+  },
+  {
+    "email": "arthur.robert@nexora-mail.com",
+    "name": "Arthur Robert",
+    "avatar": "AR",
+    "salt": "nexora-demo-salt",
+    "password": "82fb3cbf10628c76d8338137f4ca48e84ed49a111ebc8d54d358510f3eb56ebe",
+    "role": "fondateur"
+  },
+  {
+    "email": "kyxmi.delahodde@nexora-mail.com",
+    "name": "Kyxmi Delahodde",
+    "avatar": "KD",
+    "salt": "nexora-salt-257b8935c88d5f31",
+    "password": "f658498cf421b15c768ec871cb5932127b597cec2886642a6941f88d6b9b4dbc",
+    "role": "client",
+    "plan": "pro",
+    "createdAt": "2026-09-01T19:02:46.762Z"
+  },
+  {
+    "email": "kyxmi.fps@nexora-mail.com",
+    "name": "Kyxmi Fps",
+    "avatar": "KF",
+    "salt": "nexora-salt-d0745239f55a3514",
+    "password": "a3f4df337738ed6f3eaab35b7470b8f9f67985e378012d29f44aca8e06d90a08",
+    "role": "client",
+    "plan": "business",
+    "createdAt": "2026-09-01T19:05:37.601Z"
+  }
+]

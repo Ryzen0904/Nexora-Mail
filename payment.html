@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement — Nexora-Mail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="auth-body">
+
+  <main class="auth-wrap auth-wrap--wide">
+    <div class="auth-card pay-card">
+
+      <a href="index.html" class="auth-brand">
+        <span class="brand__logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="6" width="28" height="20" rx="4" fill="url(#pg1)"/>
+            <path d="M4 9l12 9 12-9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="pg1" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          </svg>
+        </span>
+        <span class="brand__name">Nexora<span class="brand__accent">Mail</span></span>
+      </a>
+
+      <h1 class="auth-title">Finaliser votre abonnement</h1>
+      <p class="auth-subtitle">Paiement sécurisé — ensuite vous créerez votre adresse.</p>
+
+      <!-- Récapitulatif du plan -->
+      <div class="pay-summary" id="paySummary"></div>
+
+      <!-- Bascule mensuel / annuel -->
+      <div class="pricing__toggle pay-toggle" role="group" aria-label="Choisir la facturation">
+        <button class="pricing__tab is-active" id="tabMonthly" type="button">Mensuel</button>
+        <button class="pricing__tab" id="tabAnnual" type="button">Annuel <span class="pricing__save">−20 %</span></button>
+      </div>
+
+      <!-- Fausse carte bancaire (démo) -->
+      <form id="payForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="cardName">Titulaire de la carte</label>
+          <input type="text" id="cardName" placeholder="Jean Dupont" autocomplete="cc-name" required>
+        </div>
+        <div class="form-group">
+          <label for="cardNumber">Numéro de carte</label>
+          <input type="text" id="cardNumber" inputmode="numeric" placeholder="4242 4242 4242 4242" autocomplete="cc-number" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cardExp">Expiration</label>
+            <input type="text" id="cardExp" inputmode="numeric" placeholder="MM/AA" autocomplete="cc-exp" required>
+          </div>
+          <div class="form-group">
+            <label for="cardCvc">CVC</label>
+            <input type="text" id="cardCvc" inputmode="numeric" placeholder="123" autocomplete="cc-csc" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full" id="payBtn">Payer <span id="payAmount"></span></button>
+        <p class="form-status" id="payStatus" aria-live="polite"></p>
+      </form>
+
+      <p class="pay-note">🔒 Démo : aucun débit réel n'est effectué. Carte valide : 4242 4242 4242 4242</p>
+
+      <p class="auth-back"><a href="index.html">← Retour aux tarifs</a></p>
+    </div>
+  </main>
+
+  <script src="js/payment.js"></script>
+</body>
+</html>

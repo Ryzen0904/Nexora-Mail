@@ -132,10 +132,12 @@ function initPricingToggle() {
 
     prices.forEach((el) => {
       const value = annual
-        ? el.getAttribute("data-annually")
+        ? el.getAttribute("data-annual-total")
         : el.getAttribute("data-monthly");
-      const annualTotal = el.getAttribute("data-annual-total");
-      el.innerHTML = `${value} €<small>/mois</small><span class="price-card__billing">${annual ? annualTotal + " € / an • payé à l'année" : ""}</span>`;
+      const annualMonthly = el.getAttribute("data-annually");
+      el.innerHTML = annual
+        ? `${value} €<small>/an</small><span class="price-card__billing">${annualMonthly} € au mois • payé à l'année</span>`
+        : `${value} €<small>/mois</small><span class="price-card__billing"></span>`;
     });
   };
 

@@ -462,7 +462,7 @@ async function handleApi(req, res, url) {
     }
 
     await saveMails(mails);
-    return sendJSON(res, 200, { ok: true, id });
+    return sendJSON(res, 200, { ok: true, id, internal: Boolean(target) });
   }
 
   // POST /api/register  {firstname, lastname, password, plan}

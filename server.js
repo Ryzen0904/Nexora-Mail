@@ -579,6 +579,10 @@ async function handleApi(req, res, url) {
     if (!stripe) return sendJSON(res, 503, { error: "Paiement Stripe non configuré sur Render." });
 
     try {
+      const stripePrice = await stripe.prices.retrieve(priceId);
+      if (!stripePrice.active || !stripePrice.recurring) {
+        return sendJSON(res, 400, { error: "Le tarif Stripe Business TEST doit être actif et récurrent." });
+      }
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         line_items: [{ price: priceId, quantity: 1 }],
@@ -601,7 +605,7 @@ async function handleApi(req, res, url) {
       return sendJSON(res, 200, { checkoutUrl: session.url });
     } catch (error) {
       console.error("Stripe Checkout error:", error.message);
-      return sendJSON(res, 502, { error: "Impossible de créer la session Stripe." });
+      return sendJSON(res, 502, { error: "Stripe: " + error.message });
     }
   }
 

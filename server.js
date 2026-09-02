@@ -30,6 +30,7 @@ const PAYMENTS_FILE = path.join(DATA_DIR, "payments.json");
 const DATABASE_URL = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const APP_URL = process.env.APP_URL || "https://nexora-mail-7fdk.onrender.com";
+const FREE_DOMAIN = "nexora-team.com";
 const STRIPE_PRICES = {
   pro: {
     monthly: "price_1UBM7ACep0LEOT6UIfDDdeKq",
@@ -472,7 +473,7 @@ async function handleApi(req, res, url) {
     const last = String(body.lastname || "").trim();
     const password = String(body.password || "");
     const plan = String(body.plan || "free").toLowerCase();
-    const requestedEmail = String(body.requestedEmail || "").trim().toLowerCase();
+    const requestedDomain = String(body.requestedDomain || "").trim().toLowerCase();
 
     const firstName = first[0] ? first[0].toUpperCase() + first.slice(1).toLowerCase() : "";
     const lastName = last[0] ? last[0].toUpperCase() + last.slice(1).toLowerCase() : "";
@@ -486,8 +487,8 @@ async function handleApi(req, res, url) {
     if (!["free", "pro", "business"].includes(plan)) {
       return sendJSON(res, 400, { error: "Plan invalide." });
     }
-    if (plan !== "free" && requestedEmail && !/^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?[a-z0-9]$/i.test(requestedEmail)) {
-      return sendJSON(res, 400, { error: "Nom d'adresse invalide." });
+    if (plan !== "free" && requestedDomain && !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(requestedDomain)) {
+      return sendJSON(res, 400, { error: "Domaine invalide." });
     }
 
     // Les plans payants nécessitent un paiement validé, non utilisé
@@ -522,11 +523,12 @@ async function handleApi(req, res, url) {
         .replace(/^\.+|\.+$/g, "");
 
     const users = await getUsers();
-    const base = plan !== "free" && requestedEmail ? slug(requestedEmail) : slug(firstName) + "." + slug(lastName);
-    let email = base + "@nexora-mail.com";
+    const base = slug(firstName) + "." + slug(lastName);
+    const domain = plan !== "free" && requestedDomain ? requestedDomain : FREE_DOMAIN;
+    let email = base + "@" + domain;
     let suffix = 2;
     while (users.some((u) => u.email.toLowerCase() === email)) {
-      email = base + suffix + "@nexora-mail.com";
+      email = base + suffix + "@" + domain;
       suffix++;
     }
 

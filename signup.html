@@ -31,7 +31,7 @@
 
       <div class="email-preview" id="emailPreview" aria-live="polite">
         <span class="email-preview__label">Votre adresse</span>
-        <p class="email-preview__addr">prenom.nom@nexora-mail.com</p>
+        <p class="email-preview__addr">prenom.nom@nexora-team.com</p>
       </div>
 
       <form id="signupForm" class="auth-form" novalidate>
@@ -45,10 +45,10 @@
             <input type="text" id="lastname" name="lastname" placeholder="Dupont" autocomplete="family-name" required>
           </div>
         </div>
-        <div class="form-group" id="customEmailGroup" hidden>
-          <label for="customEmail">Nom de l'adresse professionnelle</label>
-          <input type="text" id="customEmail" name="customEmail" placeholder="entreprise ou contact.entreprise" autocomplete="off">
-          <small>Votre adresse sera créée sous la forme nom@nexora-mail.com.</small>
+        <div class="form-group" id="customDomainGroup" hidden>
+          <label for="customDomain">Domaine de l'adresse professionnelle</label>
+          <input type="text" id="customDomain" name="customDomain" placeholder="entreprise.com" autocomplete="off">
+          <small>Votre adresse sera créée sous la forme prenom.nom@votre-domaine.com.</small>
         </div>
         <div class="form-group">
           <label for="password">Mot de passe</label>

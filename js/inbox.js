@@ -474,12 +474,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initEmailJs();
   updateExtStatus();
 
-  document.getElementById("settingsBtn").addEventListener("click", openSettings);
-  document.getElementById("settingsClose").addEventListener("click", closeSettings);
-  document.getElementById("settingsOverlay").addEventListener("click", (e) => {
+  document.getElementById("settingsBtn")?.addEventListener("click", openSettings);
+  document.getElementById("settingsClose")?.addEventListener("click", closeSettings);
+  document.getElementById("settingsOverlay")?.addEventListener("click", (e) => {
     if (e.target === document.getElementById("settingsOverlay")) closeSettings();
   });
-  document.getElementById("settingsForm").addEventListener("submit", (e) => {
+  document.getElementById("settingsForm")?.addEventListener("submit", (e) => {
     e.preventDefault();
     const cfg = readSettingsForm();
     saveExtConfig(cfg);
@@ -495,7 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     updateExtStatus();
   });
-  document.getElementById("testSendBtn").addEventListener("click", testEmailJsSend);
+  document.getElementById("testSendBtn")?.addEventListener("click", testEmailJsSend);
 
   // Déconnexion
   document.getElementById("logoutBtn").addEventListener("click", async () => {

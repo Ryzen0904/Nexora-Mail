@@ -1,0 +1,1 @@
+window.NEXORA_API_BASE = "https://nexora-mail-7fdk.onrender.com";

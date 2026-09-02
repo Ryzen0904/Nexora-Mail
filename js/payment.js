@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     status.className = "form-status";
 
     try {
-      const res = await fetch("/api/pay", {
+      const res = await fetch(window.NEXORA_API_BASE + "/api/pay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ plan: PLAN, billing }),

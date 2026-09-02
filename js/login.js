@@ -2,14 +2,14 @@
    Nexora-Mail — Connexion (login.js)
    ========================================= */
 
-const API_BASE = "";
+const API_BASE = window.NEXORA_API_BASE;
 
 function readCreds() {
   return api("/api/me").catch(() => null);
 }
 
 async function api(endpoint, options = {}) {
-  const res = await fetch(endpoint, {
+  const res = await fetch(API_BASE + endpoint, {
     headers: {
       "Content-Type": "application/json",
       ...(localStorage.getItem("nexora_token")

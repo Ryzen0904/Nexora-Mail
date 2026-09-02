@@ -6,7 +6,7 @@ const TOKEN = localStorage.getItem("nexora_token");
 const USER = JSON.parse(localStorage.getItem("nexora_user") || "null");
 
 async function api(endpoint, options = {}) {
-  const res = await fetch(endpoint, {
+  const res = await fetch(window.NEXORA_API_BASE + endpoint, {
     headers: {
       "Content-Type": "application/json",
       ...(TOKEN ? { Authorization: "Bearer " + TOKEN } : {}),

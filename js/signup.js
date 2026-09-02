@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     // Vérifier que le paiement est valide côté serveur avant d'afficher le formulaire
-    fetch("/api/payment/" + encodeURIComponent(paymentId))
+    fetch(window.NEXORA_API_BASE + "/api/payment/" + encodeURIComponent(paymentId))
       .then((r) => r.json())
       .then((data) => {
         if (!data.valid) {
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.textContent = "Création en cours…";
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch(window.NEXORA_API_BASE + "/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstname, lastname, password, plan, payment: paymentId }),

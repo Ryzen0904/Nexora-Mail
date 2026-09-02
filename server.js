@@ -605,6 +605,15 @@ function serveFile(filePath, res) {
 }
 
 const server = http.createServer(async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   let url;
   try {
     url = new URL(req.url, `http://localhost:${PORT}`);

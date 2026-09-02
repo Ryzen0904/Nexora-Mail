@@ -9,6 +9,22 @@ const PLAN_NAMES = {
 };
 
 const FREE_DOMAIN = "nexora-team.com";
+const RESERVED_NAMES = new Set([
+  "tim sweeney",
+  "jason statham",
+  "aurelien n zuzi zola",
+  "johnny hallyday",
+]);
+
+function normalizePersonName(value) {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
 
 function slug(s) {
   return String(s)
@@ -92,6 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!firstname || !lastname) {
       status.textContent = "Merci de renseigner votre prénom et votre nom.";
+      status.className = "form-status is-error";
+      return;
+    }
+    if (RESERVED_NAMES.has(normalizePersonName(firstname + " " + lastname))) {
+      status.textContent = "Ce nom ne peut pas être utilisé pour créer une adresse.";
       status.className = "form-status is-error";
       return;
     }

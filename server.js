@@ -31,6 +31,22 @@ const DATABASE_URL = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const APP_URL = process.env.APP_URL || "https://nexora-mail-7fdk.onrender.com";
 const FREE_DOMAIN = "nexora-team.com";
+const RESERVED_NAMES = new Set([
+  "tim sweeney",
+  "jason statham",
+  "aurelien n zuzi zola",
+  "johnny hallyday",
+]);
+
+function normalizePersonName(value) {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
 const STRIPE_PRICES = {
   pro: {
     monthly: "price_1UBM7ACep0LEOT6UIfDDdeKq",
@@ -480,6 +496,9 @@ async function handleApi(req, res, url) {
 
     if (!firstName || !lastName) {
       return sendJSON(res, 400, { error: "Prénom et nom sont obligatoires." });
+    }
+    if (RESERVED_NAMES.has(normalizePersonName(firstName + " " + lastName))) {
+      return sendJSON(res, 400, { error: "Ce nom ne peut pas être utilisé pour créer une adresse." });
     }
     if (password.length < 6) {
       return sendJSON(res, 400, { error: "Le mot de passe doit contenir au moins 6 caractères." });

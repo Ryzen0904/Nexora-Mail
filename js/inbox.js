@@ -248,8 +248,6 @@ function fillSettingsForm() {
   };
   set("cfgFromName", cfg.fromName || (USER && USER.name) || "");
   set("cfgFromEmail", cfg.fromEmail || (USER && USER.email) || "");
-  set("cfgServiceId", cfg.serviceId || "");
-  set("cfgTemplateId", cfg.templateId || "");
   set("cfgPublicKey", cfg.publicKey || "");
 }
 
@@ -269,11 +267,12 @@ function closeSettings() {
 
 function readSettingsForm() {
   const g = (id) => (document.getElementById(id) || {}).value || "";
+  const saved = getExtConfig() || {};
   return {
     fromName: g("cfgFromName").trim(),
     fromEmail: g("cfgFromEmail").trim(),
-    serviceId: g("cfgServiceId").trim(),
-    templateId: g("cfgTemplateId").trim(),
+    serviceId: saved.serviceId || "",
+    templateId: saved.templateId || "",
     publicKey: g("cfgPublicKey").trim(),
   };
 }
@@ -282,8 +281,8 @@ async function testEmailJsSend() {
   const st = document.getElementById("settingsStatus");
   if (!st) return;
   const cfg = readSettingsForm();
-  if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId || !cfg.fromEmail) {
-    st.textContent = "Renseignez d'abord les clés (Service, Template, Public, E-mail).";
+  if (!cfg.publicKey || !cfg.fromEmail || !cfg.serviceId || !cfg.templateId) {
+    st.textContent = "Configuration EmailJS incomplète pour l'envoi externe.";
     st.className = "form-status is-error";
     return;
   }

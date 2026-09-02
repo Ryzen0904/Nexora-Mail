@@ -20,9 +20,9 @@ const PLAN_INFO = {
   business_test: {
     name: "Business TEST",
     desc: "Pour tester l'essai gratuit Business.",
-    monthly: "5,90",
-    annual: "5,90",
-    annualTotal: "5,90",
+    monthly: "0",
+    annual: "0",
+    annualTotal: "0",
   },
 };
 

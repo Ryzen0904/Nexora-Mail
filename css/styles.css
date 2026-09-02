@@ -837,6 +837,16 @@ button {
   letter-spacing: 0;
 }
 
+.price-card__billing {
+  display: block;
+  min-height: 1.2em;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--c-muted);
+}
+
 .price-card__custom {
   font-size: 1.5rem;
 }

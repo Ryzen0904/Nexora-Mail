@@ -134,7 +134,8 @@ function initPricingToggle() {
       const value = annual
         ? el.getAttribute("data-annually")
         : el.getAttribute("data-monthly");
-      el.innerHTML = `${value} €<small>${annual ? "/mois (facturé à l'année)" : "/mois"}</small>`;
+      const annualTotal = el.getAttribute("data-annual-total");
+      el.innerHTML = `${value} €<small>/mois</small><span class="price-card__billing">${annual ? annualTotal + " € / an • payé à l'année" : ""}</span>`;
     });
   };
 

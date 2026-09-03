@@ -121,9 +121,20 @@
         Permet d'envoyer de <strong>vrais e-mails</strong> vers Gmail, Outlook, etc.
         Créez un compte gratuit sur
         <a href="https://dashboard.emailjs.com" target="_blank" rel="noopener noreferrer">dashboard.emailjs.com</a>,
-        ajoutez votre boîte Gmail/Outlook comme service, créez un modèle avec les variables
-        <code>to_email</code>, <code>to_name</code>, <code>from_name</code>, <code>reply_to</code>,
-        <code>subject</code>, <code>message</code>, puis collez vos identifiants ici.
+        ajoutez votre boîte Gmail/Outlook comme service, puis créez un modèle.
+      </p>
+      <div class="settings-help" style="margin-top:0.5rem;padding:0.8rem;background:var(--c-surface);border-radius:8px;border:1px solid var(--c-border);font-size:0.85rem;">
+        <strong>⚠️ Configuration critique du template EmailJS :</strong>
+        <ol style="margin:0.5rem 0 0 1.2rem;padding:0;line-height:1.8;">
+          <li>Dans le template, onglet <strong>Content</strong> : utilisez les variables <code>{{to_email}}</code>, <code>{{to_name}}</code>, <code>{{from_name}}</code>, <code>{{reply_to}}</code>, <code>{{subject}}</code>, <code>{{message}}</code></li>
+          <li><strong>IMPORTANT</strong> : Dans l'onglet <strong>Settings</strong> du template, champ <strong>"To Email"</strong> → mettez <code>{{to_email}}</code> (pas une adresse fixe !)</li>
+          <li>Champ <strong>"From Name"</strong> → <code>{{from_name}}</code></li>
+          <li>Champ <strong>"Reply To"</strong> → <code>{{reply_to}}</code></li>
+          <li>Champ <strong>"Subject"</strong> → <code>{{subject}}</code></li>
+        </ol>
+        <p style="margin:0.5rem 0 0 0;color:var(--c-muted);">Ainsi, l'e-mail destinataire sera dynamique (celui saisi dans Nexora-Mail).</p>
+      </div>
+      <p class="settings-help">
         La <strong>Clé API</strong> (publique) et la <strong>Clé API Secrète</strong> (privée)
         se trouvent dans le menu <em>Account → API</em> du dashboard.
       </p>

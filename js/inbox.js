@@ -26,7 +26,12 @@ const EXT_CONFIG_KEY = "nexora_emailjs";
 function getExtConfig() {
   try {
     const saved = JSON.parse(localStorage.getItem(EXT_CONFIG_KEY) || "null");
-    if (saved) return saved;
+    // Purge des anciennes clés qui ont fuité sur GitHub
+    if (saved && saved.apiKey === "29dfb8f9d4d9d8ea048a72ee66a67f1e") {
+      localStorage.removeItem(EXT_CONFIG_KEY);
+    } else if (saved) {
+      return saved;
+    }
   } catch {
     /* ignore */
   }
@@ -59,7 +64,7 @@ function isExtConfigured() {
    - Clé API (publique) → identifiant du compte
    - Clé API Secrète    → Bearer token d'authentification
    https://api.emailjs.com/api/v1.2/email/send  */
-const EMAILJS_SEND_URL = "https://api.emailjs.com/api/v1.2/email/send";
+const EMAILJS_SEND_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
 function emailjsTemplateParams(cfg, { to, subject, body }) {
   return {

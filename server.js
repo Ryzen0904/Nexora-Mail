@@ -186,6 +186,21 @@ async function saveMails(mails) {
   );
 }
 
+/* Insère UNIQUEMENT le nouveau mail (pas de réécriture complète)
+   → évite qu'un envoi concurrent n'écrase les mails des autres */
+async function insertMail(mail) {
+  if (!pool) {
+    const mails = readJSON(MAILS_FILE) || [];
+    mails.push(mail);
+    writeJSON(MAILS_FILE, mails);
+    return;
+  }
+  await query(
+    "INSERT INTO mails (id,owner,folder,sender,recipient,subject,body,sent_at,is_read) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT (id) DO NOTHING",
+    [mail.id, mail.owner, mail.folder, mail.from, mail.to, mail.subject, mail.body, mail.date, mail.read]
+  );
+}
+
 async function saveUsers(users) {
   if (!pool) return writeJSON(USERS_FILE, users);
   const user = users[users.length - 1];
@@ -473,11 +488,10 @@ async function handleApi(req, res, url) {
     }
 
     const sender = await findUser(email);
-    const mails = await getMails();
     const id = "m" + crypto.randomBytes(6).toString("hex");
     const nowIso = new Date().toISOString();
 
-    mails.push({
+    await insertMail({
       id,
       owner: sender.email,
       folder: "sent",
@@ -492,7 +506,7 @@ async function handleApi(req, res, url) {
     // Si le destinataire est un compte Nexora, on dépose dans sa boîte de réception
     const target = await findUser(to);
     if (target) {
-      mails.push({
+      await insertMail({
         id: "i" + crypto.randomBytes(6).toString("hex"),
         owner: target.email,
         folder: "inbox",
@@ -505,7 +519,6 @@ async function handleApi(req, res, url) {
       });
     }
 
-    await saveMails(mails);
     return sendJSON(res, 200, { ok: true, id, internal: Boolean(target) });
   }
 
@@ -593,9 +606,8 @@ async function handleApi(req, res, url) {
     await saveUsers(users);
 
     // E-mail de bienvenue dans la boîte du nouveau compte
-    const mails = await getMails();
     const welcomeSubject = "Bienvenue dans votre boîte " + email;
-    mails.push({
+    await insertMail({
       id: "w" + crypto.randomBytes(6).toString("hex"),
       owner: email,
       folder: "inbox",
@@ -611,7 +623,6 @@ async function handleApi(req, res, url) {
       date: new Date().toISOString(),
       read: false,
     });
-    await saveMails(mails);
 
     return sendJSON(res, 200, { email, plan, name: firstName + " " + lastName });
   }

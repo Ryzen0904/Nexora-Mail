@@ -45,7 +45,7 @@ function getExtConfig() {
       serviceId: pub.serviceId || "",
       templateId: pub.templateId || "",
       fromName: pub.fromName || "Nexora-Mail",
-      fromEmail: pub.fromEmail || "contact@nexora-mail.com",
+      fromEmail: pub.fromEmail || "contact@nexora-mail-7fdk.onrender.com",
     };
   }
   return null;

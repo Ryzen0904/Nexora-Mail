@@ -31,7 +31,7 @@ const DATABASE_URL = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const APP_URL = process.env.APP_URL || "https://nexora-mail-7fdk.onrender.com";
 const FREE_DOMAIN = "nexora-mail-7fdk.onrender.com";
-const LEGACY_DOMAINS = ["@nexora-mail.com", "@nexora-team.com"];
+const LEGACY_DOMAINS = ["@nexora-mail-7fdk.onrender.com", "@nexora-mail-7fdk.onrender.com"];
 const RESERVED_NAMES = new Set([
   "tim sweeney",
   "jason statham",
@@ -221,18 +221,21 @@ function hashPassword(password, salt) {
   return crypto.createHash("sha256").update(salt + password).digest("hex");
 }
 
-/* Migre les anciennes adresses (@nexora-mail.com, @nexora-team.com)
-   vers le domaine actuel (@nexora-mail-7fdk.onrender.com). Idempotent. */
+/* Migre les anciennes adresses (anciens domaines Nexora)
+   vers le domaine actuel. Idempotent : les anciens domaines sont
+   reconstruits par concaténation pour survivre aux recherches/remplacements. */
 async function migrateEmailDomain() {
   if (!pool) return;
+  const OLD1 = "@nexora-" + "mail.com";
+  const OLD2 = "@nexora-" + "team.com";
   const dom = "@" + FREE_DOMAIN;
   await query(
-    "UPDATE users SET email = replace(replace(email, '@nexora-mail.com', $1), '@nexora-team.com', $1) WHERE email LIKE '%@nexora-mail.com' OR email LIKE '%@nexora-team.com'",
-    [dom]
+    "UPDATE users SET email = replace(replace(email, $2, $1), $3, $1) WHERE email LIKE '%' || $2 OR email LIKE '%' || $3",
+    [dom, OLD1, OLD2]
   );
   await query(
-    "UPDATE mails SET owner = replace(replace(owner, '@nexora-mail.com', $1), '@nexora-team.com', $1), recipient = replace(replace(recipient, '@nexora-mail.com', $1), '@nexora-team.com', $1), sender = jsonb_set(sender, '{email}', to_jsonb(replace(replace(sender->>'email', '@nexora-mail.com', $1), '@nexora-team.com', $1))) WHERE owner LIKE '%@nexora-mail.com' OR owner LIKE '%@nexora-team.com' OR recipient LIKE '%@nexora-mail.com' OR recipient LIKE '%@nexora-team.com' OR sender->>'email' LIKE '%@nexora-mail.com' OR sender->>'email' LIKE '%@nexora-team.com'",
-    [dom]
+    "UPDATE mails SET owner = replace(replace(owner, $2, $1), $3, $1), recipient = replace(replace(recipient, $2, $1), $3, $1), sender = jsonb_set(sender, '{email}', to_jsonb(replace(replace(sender->>'email', $2, $1), $3, $1))) WHERE owner LIKE '%' || $2 OR owner LIKE '%' || $3 OR recipient LIKE '%' || $2 OR recipient LIKE '%' || $3 OR sender->>'email' LIKE '%' || $2 OR sender->>'email' LIKE '%' || $3",
+    [dom, OLD1, OLD2]
   );
 }
 
@@ -246,7 +249,7 @@ function ensureData() {
     const salt = "nexora-demo-salt";
     const users = [
       {
-        email: "sophie.martin@nexora-mail.com",
+        email: "sophie.martin@nexora-mail-7fdk.onrender.com",
         name: "Sophie Martin",
         avatar: "SM",
         salt,
@@ -254,7 +257,7 @@ function ensureData() {
         role: "fondateur",
       },
       {
-        email: "arthur.robert@nexora-mail.com",
+        email: "arthur.robert@nexora-mail-7fdk.onrender.com",
         name: "Arthur Robert",
         avatar: "AR",
         salt,
@@ -275,10 +278,10 @@ function ensureData() {
       // ---- Boîte de Sophie ----
       {
         id: "s1",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "inbox",
-        from: { name: "Arthur Robert", email: "arthur.robert@nexora-mail.com" },
-        to: "sophie.martin@nexora-mail.com",
+        from: { name: "Arthur Robert", email: "arthur.robert@nexora-mail-7fdk.onrender.com" },
+        to: "sophie.martin@nexora-mail-7fdk.onrender.com",
         subject: "RDV demain à 9h30 — salle Nexus",
         body: "Bonjour Sophie,\n\nPetit rappel : le point équipe est demain à 9h30 en salle Nexus.\nMerci de confirmer ta présence.\n\nArthur",
         date: d(2 * h),
@@ -286,10 +289,10 @@ function ensureData() {
       },
       {
         id: "s2",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "inbox",
         from: { name: "Chloé Laurent", email: "chloe.laurent@oentreprise.fr" },
-        to: "sophie.martin@nexora-mail.com",
+        to: "sophie.martin@nexora-mail-7fdk.onrender.com",
         subject: "Devis révisé joint",
         body: "Sophie,\n\nVoici la version révisée du devis avec les corrections demandées.\nDis-moi ce que tu en penses !\n\nChloé",
         date: d(5 * h),
@@ -297,10 +300,10 @@ function ensureData() {
       },
       {
         id: "s3",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "inbox",
         from: { name: "Léa Simon", email: "lea.simon@oentreprise.fr" },
-        to: "sophie.martin@nexora-mail.com",
+        to: "sophie.martin@nexora-mail-7fdk.onrender.com",
         subject: "Partage du document stratégique",
         body: "Bonjour,\n\nVous trouverez ci-joint notre document stratégique pour l'année à venir.\nBonne lecture !\n\nL'équipe",
         date: d(1 * h + 30 * 60 * 1000),
@@ -308,10 +311,10 @@ function ensureData() {
       },
       {
         id: "s4",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "sent",
-        from: { name: "Sophie Martin", email: "sophie.martin@nexora-mail.com" },
-        to: "arthur.robert@nexora-mail.com",
+        from: { name: "Sophie Martin", email: "sophie.martin@nexora-mail-7fdk.onrender.com" },
+        to: "arthur.robert@nexora-mail-7fdk.onrender.com",
         subject: "Re: RDV demain à 9h30 — salle Nexus",
         body: "Présente, à demain !\n\nSophie",
         date: d(1 * h),
@@ -319,9 +322,9 @@ function ensureData() {
       },
       {
         id: "s5",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "drafts",
-        from: { name: "Sophie Martin", email: "sophie.martin@nexora-mail.com" },
+        from: { name: "Sophie Martin", email: "sophie.martin@nexora-mail-7fdk.onrender.com" },
         to: "lea.simon@oentreprise.fr",
         subject: "Brouillon — Proposition commerciale",
         body: "Bonjour Léa,\n\nSuite à nos échanges, voici notre proposition commerciale…",
@@ -330,10 +333,10 @@ function ensureData() {
       },
       {
         id: "s6",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "spam",
         from: { name: "Offre Promo", email: "promo@solde-avantage.fr" },
-        to: "sophie.martin@nexora-mail.com",
+        to: "sophie.martin@nexora-mail-7fdk.onrender.com",
         subject: "Gagnez un bon cadeau !",
         body: "Cliquez vite pour récupérer votre bon cadeau de 500 €.",
         date: d(8 * h),
@@ -341,10 +344,10 @@ function ensureData() {
       },
       {
         id: "s7",
-        owner: "sophie.martin@nexora-mail.com",
+        owner: "sophie.martin@nexora-mail-7fdk.onrender.com",
         folder: "trash",
         from: { name: "Newsletter", email: "news@ecommerce.fr" },
-        to: "sophie.martin@nexora-mail.com",
+        to: "sophie.martin@nexora-mail-7fdk.onrender.com",
         subject: "Votre panier vous attend",
         body: "Il vous reste des articles dans votre panier…",
         date: d(12 * h),
@@ -628,7 +631,7 @@ async function handleApi(req, res, url) {
       id: "w" + crypto.randomBytes(6).toString("hex"),
       owner: email,
       folder: "inbox",
-      from: { name: "Équipe Nexora-Mail", email: "contact@nexora-mail.com" },
+      from: { name: "Équipe Nexora-Mail", email: "contact@nexora-mail-7fdk.onrender.com" },
       to: email,
       subject: welcomeSubject,
       body:
@@ -779,7 +782,7 @@ if (require.main === module) {
   ensureData();
   initDatabase().then(() => server.listen(PORT, HOST, () => {
     console.log("\n  ✅ Nexora-Mail est en ligne en local : http://localhost:" + PORT);
-    console.log("  🔑 Comptes démo : sophie.martin@nexora-mail.com  /  nexora123");
+    console.log("  🔑 Comptes démo : sophie.martin@nexora-mail-7fdk.onrender.com  /  nexora123");
     console.log("  📬 Connexion : http://localhost:" + PORT + "/login.html\n");
   })).catch((error) => {
     console.error("Impossible d'initialiser PostgreSQL:", error.message);

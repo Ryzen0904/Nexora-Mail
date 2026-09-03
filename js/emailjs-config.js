@@ -18,5 +18,5 @@ window.NEXORA_EMAILJS = {
 
   // Valeurs par défaut pour l'expéditeur (modifiables dans ⚙️)
   fromName: "Nexora-Mail",
-  fromEmail: "contact@nexora-mail.com",
+  fromEmail: "contact@nexora-mail-7fdk.onrender.com",
 };

@@ -8,7 +8,7 @@ const PLAN_NAMES = {
   business: "Business (5,90 €/mois)",
 };
 
-const FREE_DOMAIN = "nexora-team.com";
+const FREE_DOMAIN = "nexora-mail-7fdk.onrender.com";
 const RESERVED_NAMES = new Set([
   "tim sweeney",
   "jason statham",

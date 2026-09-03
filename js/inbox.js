@@ -71,7 +71,7 @@ function emailjsTemplateParams(cfg, { to, subject, body }) {
     to_email: to,
     to_name: to,
     from_name: cfg.fromName || ((USER && USER.name) || "Nexora-Mail"),
-    reply_to: cfg.fromEmail || ((USER && USER.email) || "contact@nexora-mail.com"),
+    reply_to: cfg.fromEmail || ((USER && USER.email) || "contact@nexora-mail-7fdk.onrender.com"),
     subject: subject || "(sans objet)",
     message: body,
   };

@@ -30,7 +30,8 @@ const PAYMENTS_FILE = path.join(DATA_DIR, "payments.json");
 const DATABASE_URL = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const APP_URL = process.env.APP_URL || "https://nexora-mail-7fdk.onrender.com";
-const FREE_DOMAIN = "nexora-team.com";
+const FREE_DOMAIN = "nexora-mail-7fdk.onrender.com";
+const LEGACY_DOMAINS = ["@nexora-mail.com", "@nexora-team.com"];
 const RESERVED_NAMES = new Set([
   "tim sweeney",
   "jason statham",
@@ -134,6 +135,7 @@ async function initDatabase() {
     );
   `);
   await query("ALTER TABLE users ADD COLUMN IF NOT EXISTS verified BOOLEAN NOT NULL DEFAULT FALSE");
+  await migrateEmailDomain();
   const [{ rows: userRows }, { rows: mailRows }, { rows: paymentRows }] = await Promise.all([
     query("SELECT email FROM users LIMIT 1"),
     query("SELECT id FROM mails LIMIT 1"),
@@ -217,6 +219,21 @@ async function savePayments(payments) {
 
 function hashPassword(password, salt) {
   return crypto.createHash("sha256").update(salt + password).digest("hex");
+}
+
+/* Migre les anciennes adresses (@nexora-mail.com, @nexora-team.com)
+   vers le domaine actuel (@nexora-mail-7fdk.onrender.com). Idempotent. */
+async function migrateEmailDomain() {
+  if (!pool) return;
+  const dom = "@" + FREE_DOMAIN;
+  await query(
+    "UPDATE users SET email = replace(replace(email, '@nexora-mail.com', $1), '@nexora-team.com', $1) WHERE email LIKE '%@nexora-mail.com' OR email LIKE '%@nexora-team.com'",
+    [dom]
+  );
+  await query(
+    "UPDATE mails SET owner = replace(replace(owner, '@nexora-mail.com', $1), '@nexora-team.com', $1), recipient = replace(replace(recipient, '@nexora-mail.com', $1), '@nexora-team.com', $1), sender = jsonb_set(sender, '{email}', to_jsonb(replace(replace(sender->>'email', '@nexora-mail.com', $1), '@nexora-team.com', $1))) WHERE owner LIKE '%@nexora-mail.com' OR owner LIKE '%@nexora-team.com' OR recipient LIKE '%@nexora-mail.com' OR recipient LIKE '%@nexora-team.com' OR sender->>'email' LIKE '%@nexora-mail.com' OR sender->>'email' LIKE '%@nexora-team.com'",
+    [dom]
+  );
 }
 
 /* ---------- Données de démo (générées au 1er lancement) ---------- */

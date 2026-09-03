@@ -7,5 +7,5 @@
    ========================================= */
 
 window.NEXORA_EMAILJS_SECRET = {
-  secretKey: "d1ea1c2ecc0437583322d3bbc93c4711",
+  secretKey: "",
 };

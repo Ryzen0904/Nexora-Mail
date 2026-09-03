@@ -25,10 +25,25 @@ const EXT_CONFIG_KEY = "nexora_emailjs";
 
 function getExtConfig() {
   try {
-    return JSON.parse(localStorage.getItem(EXT_CONFIG_KEY) || "null");
+    const saved = JSON.parse(localStorage.getItem(EXT_CONFIG_KEY) || "null");
+    if (saved) return saved;
   } catch {
-    return null;
+    /* ignore */
   }
+  // Valeurs par défaut depuis js/emailjs-config.js (+ js/emailjs-secret.js)
+  const pub = window.NEXORA_EMAILJS || {};
+  const secret = window.NEXORA_EMAILJS_SECRET || {};
+  if (pub.apiKey || secret.secretKey) {
+    return {
+      apiKey: pub.apiKey || "",
+      secretKey: secret.secretKey || "",
+      serviceId: pub.serviceId || "",
+      templateId: pub.templateId || "",
+      fromName: pub.fromName || "Nexora-Mail",
+      fromEmail: pub.fromEmail || "contact@nexora-mail.com",
+    };
+  }
+  return null;
 }
 
 function saveExtConfig(cfg) {
@@ -37,40 +52,53 @@ function saveExtConfig(cfg) {
 
 function isExtConfigured() {
   const c = getExtConfig();
-  return !!(c && c.publicKey && c.serviceId && c.templateId);
+  return !!(c && c.apiKey && c.secretKey && c.serviceId && c.templateId);
 }
 
-function initEmailJs() {
-  if (!window.emailjs) return false;
-  const c = getExtConfig();
-  if (c && c.publicKey) {
-    try {
-      window.emailjs.init({ publicKey: c.publicKey });
-    } catch (err) {
-      console.warn("EmailJS init:", err);
-    }
+/* Envoi via l'API REST EmailJS v1.2
+   - Clé API (publique) → identifiant du compte
+   - Clé API Secrète    → Bearer token d'authentification
+   https://api.emailjs.com/api/v1.2/email/send  */
+const EMAILJS_SEND_URL = "https://api.emailjs.com/api/v1.2/email/send";
+
+function emailjsTemplateParams(cfg, { to, subject, body }) {
+  return {
+    to_email: to,
+    to_name: to,
+    from_name: cfg.fromName || ((USER && USER.name) || "Nexora-Mail"),
+    reply_to: cfg.fromEmail || ((USER && USER.email) || "contact@nexora-mail.com"),
+    subject: subject || "(sans objet)",
+    message: body,
+  };
+}
+
+async function emailjsSendREST(cfg, params) {
+  const res = await fetch(EMAILJS_SEND_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "Bearer " + cfg.secretKey,
+    },
+    body: JSON.stringify({
+      service_id: cfg.serviceId,
+      template_id: cfg.templateId,
+      user_id: cfg.apiKey,
+      template_params: params,
+    }),
+  });
+  const text = await res.text().catch(() => "");
+  if (!res.ok) {
+    throw new Error("EmailJS " + res.status + " : " + (text || res.statusText));
   }
-  return true;
+  return { ok: true };
 }
 
 async function sendExternalMail({ to, subject, body }) {
-  if (!window.emailjs) throw new Error("Le SDK EmailJS n'a pas pu être chargé.");
-  if (!isExtConfigured()) throw new Error("EmailJS n'est pas configuré.");
-
+  if (!isExtConfigured()) throw new Error("EmailJS n'est pas configuré (clés API requises).");
   const cfg = getExtConfig();
-  const res = await window.emailjs.send(cfg.serviceId, cfg.templateId, {
-    to_email: to,
-    to_name: to,
-    from_name: cfg.fromName || (USER && USER.name) || "Nexora-Mail",
-    reply_to: cfg.fromEmail || (USER && USER.email) || "contact@nexora-mail.com",
-    subject: subject || "(sans objet)",
-    message: body,
-  });
-  // emailjs renvoie { status, text } ; statut >= 400 = échec
-  if (res && res.status && res.status >= 400) {
-    throw new Error("EmailJS a répondu avec le statut " + res.status);
-  }
-  return res;
+  const params = emailjsTemplateParams(cfg, { to, subject, body });
+  return emailjsSendREST(cfg, params);
 }
 
 function updateExtStatus() {
@@ -248,7 +276,10 @@ function fillSettingsForm() {
   };
   set("cfgFromName", cfg.fromName || (USER && USER.name) || "");
   set("cfgFromEmail", cfg.fromEmail || (USER && USER.email) || "");
-  set("cfgPublicKey", cfg.publicKey || "");
+  set("cfgApiKey", cfg.apiKey || "");
+  set("cfgSecretKey", cfg.secretKey || "");
+  set("cfgServiceId", cfg.serviceId || "");
+  set("cfgTemplateId", cfg.templateId || "");
 }
 
 function openSettings() {
@@ -267,13 +298,13 @@ function closeSettings() {
 
 function readSettingsForm() {
   const g = (id) => (document.getElementById(id) || {}).value || "";
-  const saved = getExtConfig() || {};
   return {
     fromName: g("cfgFromName").trim(),
     fromEmail: g("cfgFromEmail").trim(),
-    serviceId: saved.serviceId || "",
-    templateId: saved.templateId || "",
-    publicKey: g("cfgPublicKey").trim(),
+    serviceId: g("cfgServiceId").trim(),
+    templateId: g("cfgTemplateId").trim(),
+    apiKey: g("cfgApiKey").trim(),
+    secretKey: g("cfgSecretKey").trim(),
   };
 }
 
@@ -281,34 +312,25 @@ async function testEmailJsSend() {
   const st = document.getElementById("settingsStatus");
   if (!st) return;
   const cfg = readSettingsForm();
-  if (!cfg.publicKey || !cfg.fromEmail || !cfg.serviceId || !cfg.templateId) {
-    st.textContent = "Configuration EmailJS incomplète pour l'envoi externe.";
+  if (!cfg.apiKey || !cfg.secretKey || !cfg.serviceId || !cfg.templateId || !cfg.fromEmail) {
+    st.textContent = "Renseignez Clé API, Clé API Secrète, Service, Template et un e-mail de réponse.";
     st.className = "form-status is-error";
     return;
   }
   saveExtConfig(cfg);
-  if (window.emailjs && cfg.publicKey) {
-    try {
-      window.emailjs.init({ publicKey: cfg.publicKey });
-    } catch (err) {}
-  }
   const btn = document.getElementById("testSendBtn");
   if (btn) btn.disabled = true;
   st.textContent = "⏳ Envoi de test en cours…";
   st.className = "form-status";
   try {
-    const res = await window.emailjs.send(cfg.serviceId, cfg.templateId, {
-      to_email: cfg.fromEmail,
-      to_name: cfg.fromName || "Test",
-      from_name: cfg.fromName || "Nexora-Mail",
-      reply_to: cfg.fromEmail,
-      subject: "Test Nexora-Mail ✔",
-      message: "Ceci est un e-mail de test envoyé depuis votre boîte Nexora-Mail.",
-      test: "true",
-    });
-    if (res && res.status && res.status >= 400) {
-      throw new Error("Statut " + res.status);
-    }
+    await emailjsSendREST(
+      cfg,
+      emailjsTemplateParams(cfg, {
+        to: cfg.fromEmail,
+        subject: "Test Nexora-Mail ✔",
+        body: "Ceci est un e-mail de test envoyé depuis votre boîte Nexora-Mail.",
+      })
+    );
     st.textContent = "✅ E-mail de test envoyé à " + cfg.fromEmail + " !";
     st.className = "form-status is-success";
   } catch (err) {
@@ -477,7 +499,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Configuration EmailJS (envoi externe)
-  initEmailJs();
   updateExtStatus();
 
   document.getElementById("settingsBtn")?.addEventListener("click", openSettings);
@@ -489,11 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const cfg = readSettingsForm();
     saveExtConfig(cfg);
-    if (window.emailjs && cfg.publicKey) {
-      try {
-        window.emailjs.init({ publicKey: cfg.publicKey });
-      } catch (err) {}
-    }
     const st = document.getElementById("settingsStatus");
     if (st) {
       st.textContent = "✅ Configuration enregistrée.";
